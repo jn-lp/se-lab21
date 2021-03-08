@@ -11,3 +11,14 @@ go_testedbinary {
   // Build inputs.
   srcs: ["**/*.go", "../go.mod"]
 }
+
+go_test_coverage {
+  // Module (and output) name.
+  name: "bood-coverage",
+
+  // Go package to build.
+  pkg: "./...",
+
+  // Build inputs.
+  srcs: ["**/*.go", "../go.mod"]
+}

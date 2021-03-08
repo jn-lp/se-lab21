@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/google/blueprint"
 	"github.com/roman-mazur/bood"
 
 	"github.com/jn-lp/se-lab21/build/gomodule"
@@ -18,12 +17,6 @@ var (
 	verbose = flag.Bool("v", false, "Display debugging logs")
 )
 
-func NewContext() *blueprint.Context {
-	ctx := bood.PrepareContext()
-	ctx.RegisterModuleType("go_testedbinary", gomodule.TestedBinFactory)
-	return ctx
-}
-
 func main() {
 	flag.Parse()
 
@@ -31,7 +24,9 @@ func main() {
 	if !*verbose {
 		config.Debug = log.New(ioutil.Discard, "", 0)
 	}
-	ctx := NewContext()
+	ctx := bood.PrepareContext()
+	ctx.RegisterModuleType("go_testedbinary", gomodule.TestedBinFactory)
+    ctx.RegisterModuleType("go_test_coverage", gomodule.TestCoverageFactory)
 
 	ninjaBuildPath := bood.GenerateBuildFile(config, ctx)
 
